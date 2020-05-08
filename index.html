@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Color Picker</title>
+    <link href="https://fonts.googleapis.com/css?family=Exo+2|Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body> 
+    <section id="test">
+        <div class="container d-flex flex-column justify-content-center h-100">
+            <div class="title text-center my-2">
+                Color Picker
+            </div>
+            <div id="box"></div>
+            <div class="row mt-2">
+                <div class="col-12 col-lg-9">
+                    <button class="buttonR" onclick="clk('R')">R</button>
+                    <input id="Rrange" type="range" min="0" max="255" oninput="input('R')"><br>
+                    <button class="buttonG" onclick="clk('G')">G</button>
+                    <input id="Grange" type="range" min="0" max="255" oninput="input('G')"><br>
+                    <button class="buttonB" onclick="clk('B')">B</button>
+                    <input id="Brange" type="range" min="0" max="255" oninput="input('B')"><br>
+                </div>
+                <div class="col-12 col-lg-3 d-flex justify-content-between">
+                    <button class="button_math" onmousedown="math('plus')" onmouseup="clearInterval(time)">+</button>
+                    <button class="button_math" onmousedown="math('sub')" onmouseup="clearInterval(time)">-</button>
+                    <button class="button_math" onmousedown="math('rand')" onmouseup="clearInterval(time)">?</button>
+                </div>
+            </div>
+            <div class="container-fluid text-center my-3 footer-text">
+                Copyright © 2019-2020 Jasper Lee
+            </div>    
+        </div>  
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>  
+    <script>
+        var OgnRed=Math.floor(Math.random()*256);
+        var OgnGreen=Math.floor(Math.random()*256);
+        var OgnBlue=Math.floor(Math.random()*256);
+        var Area=document.getElementById("box")
+        show()
+        
+        function show(){
+            document.getElementById('box').innerHTML=`#${hex(OgnRed)}${hex(OgnGreen)}${hex(OgnBlue)}`
+            Area.style.backgroundColor=`rgb(${OgnRed},${OgnGreen},${OgnBlue})`;
+            Area.style.color="rgb("+(255-OgnRed)+","+(255-OgnGreen)+","+(255-OgnBlue);
+            document.getElementById("Rrange").value=OgnRed;
+            document.getElementById("Grange").value=OgnGreen;
+            document.getElementById("Brange").value=OgnBlue;
+        }
+
+        function hex(num){
+            newhex=parseInt(num,10).toString(16).toUpperCase();
+            return (newhex.length<2)?`0${newhex}`:newhex
+        } 
+
+
+        function clk(color){
+            switch (color) {
+                case 'R':
+                    do{
+                        var NewRed=prompt("請輸入R值(範圍:0-255)",`${OgnRed}`);
+                    }while(!(NewRed<256));
+
+                    if(NewRed!=null){
+                        document.getElementById("Rrange").value=OgnRed=NewRed;
+                        show()
+                    }              
+                break;
+                case 'G':
+                    do{
+                        var NewGreen=prompt("請輸入G值(範圍:0-255)",`${OgnGreen}`);  
+                    }while(!(NewGreen<256));
+                    if(NewGreen!=null){
+                        document.getElementById("Rrange").value=OgnGreen=NewGreen;
+                        show()
+                    }
+                break;
+                case 'B':
+                    do{
+                        var NewBlue=prompt("請輸入B值(範圍:0-255)",`${OgnBlue}`);  
+                    }while(!(NewBlue<256));
+                    if(NewBlue!=null){
+                        document.getElementById("Rrange").value=OgnBlue=NewBlue;
+                       show()
+                    }
+                break;
+                
+            }
+        }
+        function input(color2){
+            switch(color2){
+                case('R'):
+                    OgnRed=document.getElementById('Rrange').value;
+                    show()
+                break;
+                case('G'):
+                    OgnGreen=document.getElementById('Grange').value;
+                    show()
+                break;
+                case('B'):
+                    OgnBlue=document.getElementById('Brange').value;
+                    show()
+                break;
+            }
+        }
+
+        function math(way){
+            time=setInterval(function(){
+                switch(way){
+                    case('plus'):
+                        if(OgnRed<255){
+                            OgnRed++;
+                            document.getElementById('Rrange').value=OgnRed; 
+                            show()
+                        }
+                        if(OgnGreen<255){
+                            OgnGreen++;
+                            document.getElementById('Grange').value=OgnGreen; 
+                            show()
+                        }
+                        if(OgnBlue<255){
+                            OgnBlue++;
+                            document.getElementById('Brange').value=OgnBlue; 
+                            show()
+                        }
+                    break;
+                    case('sub'):
+                        if(OgnRed>0){
+                            OgnRed--;
+                            document.getElementById('Rrange').value=OgnRed; 
+                            show()
+                        }
+                        if(OgnGreen>0){
+                            OgnGreen--;
+                            document.getElementById('Grange').value=OgnGreen; 
+                            show()
+                        }
+                        if(OgnBlue>0){
+                            OgnBlue--;
+                            document.getElementById('Brange').value=OgnBlue; 
+                            show()
+                        }
+                    break;
+                    case('rand'):
+                        OgnRed=Math.floor(Math.random()*256);
+                        OgnGreen=Math.floor(Math.random()*256);
+                        OgnBlue=Math.floor(Math.random()*256);
+                        document.getElementById('Rrange').value=OgnRed;
+                        document.getElementById('Grange').value=OgnGreen;
+                        document.getElementById('Brange').value=OgnBlue; 
+                        show()
+                    break;
+            }
+            hex()      
+            },50)
+        }
+        
+    </script>
+</body>
+</html>
